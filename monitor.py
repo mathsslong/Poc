@@ -9,25 +9,25 @@ import json
 import time
 import os
 import pandas as pd
-time_sleep = 20 #æ¯éš”20ç§’çˆ¬å–ä¸€æ¬¡
+time_sleep = 20 #Ã¿¸ô20ÃëÅÀÈ¡Ò»´Î
 while(True):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.25 Safari/537.36 Core/1.70.3741.400 QQBrowser/10.5.3863.400"}
-    #åˆ¤æ–­æ–‡ä»¶æ˜¯å¦å­˜åœ¨
+    #ÅĞ¶ÏÎÄ¼şÊÇ·ñ´æÔÚ
     datas = []
     response1=None
     response2=None
     if os.path.exists("olddata.csv"):
-        #å¦‚æœæ–‡ä»¶å­˜åœ¨åˆ™æ¯æ¬¡çˆ¬å–10ä¸ª
+        #Èç¹ûÎÄ¼ş´æÔÚÔòÃ¿´ÎÅÀÈ¡10¸ö
         df = pd.read_csv("olddata.csv", header=None)
-        datas = df.where(df.notnull(),None).values.tolist()#å°†æå–å‡ºæ¥çš„æ•°æ®ä¸­çš„nanè½¬åŒ–ä¸ºNone
+        datas = df.where(df.notnull(),None).values.tolist()#½«ÌáÈ¡³öÀ´µÄÊı¾İÖĞµÄnan×ª»¯ÎªNone
         response1 = requests.get(url="https://api.github.com/search/repositories?q=CVE-2020&sort=updated&per_page=10",
                                  headers=headers)
         response2 = requests.get(url="https://api.github.com/search/repositories?q=RCE&ssort=updated&per_page=10",
                                  headers=headers)
 
     else:
-        #ä¸å­˜åœ¨çˆ¬å–å…¨éƒ¨
+        #²»´æÔÚÅÀÈ¡È«²¿
         datas = []
         response1 = requests.get(url="https://api.github.com/search/repositories?q=CVE-2020&sort=updated&order=desc",headers=headers)
         response2 = requests.get(url="https://api.github.com/search/repositories?q=RCE&ssort=updated&order=desc",headers=headers)
@@ -42,17 +42,17 @@ while(True):
                 #print(s1)
                 #print(datas)
                 params = {
-                     "text":s["name"],
-                    "desp":" é“¾æ¥:"+str(s["html"])+"\nç®€ä»‹"+str(s["description"])
+                     "title":s["name"],
+                    "desp":" Á´½Ó:"+str(s["html"])+"\n¼ò½é"+str(s["description"])
                 }
-                print("å½“å‰æ¨é€ä¸º"+str(s)+"\n")
+                print("µ±Ç°ÍÆËÍÎª"+str(s)+"\n")
                 print(params)
                 requests.get("https://sctapi.ftqq.com/SCT142424TxKKLyofXmKcUhn0ys3yZ48f6.send",params=params,timeout=10)
-                #time.sleep(1)#ä»¥é˜²æ¨é€å¤ªçŒ›
-                print("æ¨é€å®Œæˆ!")
+                #time.sleep(1)#ÒÔ·ÀÍÆËÍÌ«ÃÍ
+                print("ÍÆËÍÍê³É!")
                 datas.append(s1)
             else:
                 pass
-                #print("æ•°æ®å·²å¤„åœ¨!")
+                #print("Êı¾İÒÑ´¦ÔÚ!")
     pd.DataFrame(datas).to_csv("olddata.csv",header=None,index=None)
     time.sleep(time_sleep)
