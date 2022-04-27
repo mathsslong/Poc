@@ -1,12 +1,12 @@
 import requests
 from lxml import etree
 
-#yeshu=input("ÄúÏëÒª¸ã¶àÉÙÒ³:")
+#yeshu=input("æ‚¨æƒ³è¦æå¤šå°‘é¡µ:")
 
 def src_tiqu(yeshu):
     for i in range(1, int(yeshu+1)):
         url = 'https://src.sjtu.edu.cn/list/?page=' + str(i)
-        print("ÌáÈ¡->",str(i)+"Ò³Êı")
+        print("æå–->",str(i)+"é¡µæ•°")
         data = requests.get(url).content
         print(data.decode('utf-8'))
         soup = etree.HTML(data)
@@ -14,7 +14,7 @@ def src_tiqu(yeshu):
         results = '\n'.join(result)
         resultss = results.split()
         # print(resultss)
-        # ½«½á¹ûĞ´ÈëÎÄ¼ş
+        # å°†ç»“æœå†™å…¥æ–‡ä»¶
         for edu in resultss:
             print(edu)
             with open(r'src_edu.txt', 'a+', encoding='utf-8') as f:
@@ -22,5 +22,5 @@ def src_tiqu(yeshu):
 
 
 if __name__ == '__main__':
-    yeshu = input("ÄúÏëÒª¸ã¶àÉÙÒ³:")
+    yeshu = input("æ‚¨æƒ³è¦æå¤šå°‘é¡µ:")
     src_tiqu(yeshu)
